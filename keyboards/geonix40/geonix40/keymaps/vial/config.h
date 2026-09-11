@@ -24,7 +24,7 @@
 #define DYNAMIC_KEYMAP_LAYER_COUNT 6
 #define VIAL_COMBO_ENTRIES 4
 #define VIAL_TAP_DANCE_ENTRIES 4
-#define VIAL_KEY_OVERRIDE_ENTRIES 0
+/* KEY_OVERRIDE is disabled via rules.mk (KEY_OVERRIDE_ENABLE = no) */
 #define DYNAMIC_KEYMAP_EEPROM_MAX_ADDR  1151
 
 /* Macro & Tap code delay (무선 송신 버퍼 오버플로 방지 지연 시간) */
