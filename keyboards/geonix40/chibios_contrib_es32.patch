@@ -1,4 +1,4 @@
-﻿diff --git a/os/hal/ports/ES32/FS026/hal_lld.c b/os/hal/ports/ES32/FS026/hal_lld.c
+diff --git a/os/hal/ports/ES32/FS026/hal_lld.c b/os/hal/ports/ES32/FS026/hal_lld.c
 index ca62a745..e6686316 100644
 --- a/os/hal/ports/ES32/FS026/hal_lld.c
 +++ b/os/hal/ports/ES32/FS026/hal_lld.c
