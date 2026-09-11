@@ -235,12 +235,14 @@ void dynamic_keymap_macro_reset(void) {
     nvm_dynamic_keymap_macro_reset();
 }
 
-static uint16_t decode_keycode(uint16_t kc) {
+#ifdef VIAL_ENABLE
+__attribute__((unused)) static uint16_t decode_keycode(uint16_t kc) {
     /* map 0xFF01 => 0x0100; 0xFF02 => 0x0200, etc */
     if (kc > 0xFF00)
         return (kc & 0xFF) << 8;
     return kc;
 }
+#endif
 
 void dynamic_keymap_macro_send(uint8_t id) {
     if (id >= DYNAMIC_KEYMAP_MACRO_COUNT) {
