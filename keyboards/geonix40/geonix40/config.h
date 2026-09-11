@@ -113,10 +113,14 @@
 #endif
 
 #ifndef DYNAMIC_KEYMAP_LAYER_COUNT
-#define DYNAMIC_KEYMAP_LAYER_COUNT 8
+#define DYNAMIC_KEYMAP_LAYER_COUNT 6
 #endif
 
 #ifndef DYNAMIC_KEYMAP_EEPROM_MAX_ADDR
 #define DYNAMIC_KEYMAP_EEPROM_MAX_ADDR 1151
 #endif
+
+/* Macro & Tap code delay (무선 송신 버퍼 오버플로 방지 지연 시간) */
+#define TAP_CODE_DELAY 10
+#define DYNAMIC_KEYMAP_MACRO_DELAY 50
 

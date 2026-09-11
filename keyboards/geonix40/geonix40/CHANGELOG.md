@@ -2,6 +2,19 @@
 
 ---
 
+### [V0106] - 2026-09-11
+- **Hardware / Firmware Info (기본 정보)**: RDM026+91680 - GEONIX40 (Rev.2.5) - VIAL - Tri-Mode 3.0 - Mechanical Keyboard - V0106
+- **Backlight (백라이트)**: WS2812 (Solid Color & Breathing)
+- **Logo LED (로고 LED)**: WS2812 (Solid Color & Breathing)
+- **VID / PID**: `0x36B0 / 0x313B`
+- **Changes (변경 내역)**:
+  - Applied 50ms macro character delay (`DYNAMIC_KEYMAP_MACRO_DELAY 50`) to prevent text truncation in wireless (BLE / 2.4G) mode (무선 모드 텍스트 매크로 잘림 방지 50ms 지연 시간 적용)
+  - Optimized layer count from 8 to 6 (`DYNAMIC_KEYMAP_LAYER_COUNT 6`) to expand macro EEPROM capacity by ~2.5x (레이어 6개 최적화를 통한 매크로 가용 용량 2.5배 대폭 확장)
+  - Disabled unused key overrides (`VIAL_KEY_OVERRIDE_ENTRIES 0`) to free additional EEPROM space for macros (키 오버라이드 비활성화 및 매크로 메모리 환원)
+  - Streamlined RGB Matrix animations to Solid and Breathing modes to reduce MCU load and improve wireless communication stability (스위치 RGB 애니메이션을 솔리드/숨쉬기로 경량화하여 무선 통신 안정성 향상)
+
+---
+
 ### [V0105] - 2026-05-18
 - **Hardware / Firmware Info (기본 정보)**: RDM026+91680 - Geonix41 - VIAL - Tri-Mode 3.0 - Mechanical Keyboard - CSD939 - V0105
 - **Backlight (백라이트)**: WS2812
