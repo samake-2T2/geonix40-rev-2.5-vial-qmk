@@ -30,7 +30,14 @@ jobs:
 
       - name: Compile Geonix40 Vial Firmware
         run: |
-          make geonix40/geonix40:vial
+          make geonix40/geonix40:vial 2>&1 | tee make_output.log
+
+      - name: Upload Build Log on Failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-failure-log
+          path: make_output.log
 
       - name: Copy firmware to release directory
         run: |
