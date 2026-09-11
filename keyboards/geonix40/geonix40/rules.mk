@@ -40,4 +40,3 @@ RAW_ENABLE = yes
 ENCODER_MAP_ENABLE = yes    # Enable ENCODER MAP
 DEBOUNCE_TYPE = asym_eager_defer_pk
 TRI_LAYER_ENABLE = yes
-MOUSEKEY_ENABLE = yes
