@@ -28,8 +28,9 @@ jobs:
             git -C lib/chibios-contrib apply ../../keyboards/geonix40/chibios_contrib_es32.patch || true
           fi
 
-      - name: Compile Geonix40 Vial Firmware
+      - name: Compile Geonix40 Firmware
         run: |
+          make geonix40/geonix40:default
           make geonix40/geonix40:vial
 
       - name: Copy firmware to release directory
@@ -46,6 +47,6 @@ jobs:
       - name: Upload Firmware Artifact
         uses: actions/upload-artifact@v7
         with:
-          name: geonix40_vial_firmware
+          name: geonix40_firmware
           path: release_firmware/*
           if-no-files-found: error

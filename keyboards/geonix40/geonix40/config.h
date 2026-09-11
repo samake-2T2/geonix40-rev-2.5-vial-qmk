@@ -81,3 +81,34 @@
 #define TRI_LAYER_UPPER_LAYER 2
 #define TRI_LAYER_ADJUST_LAYER 3
 
+/* EEPROM & Flash Configuration */
+#ifndef EEPROM_SIZE
+#define EEPROM_SIZE 1152
+#endif
+
+#ifndef FEE_PAGE_SIZE
+#define FEE_PAGE_SIZE (0x200)
+#endif
+#ifndef FEE_PAGE_COUNT
+#define FEE_PAGE_COUNT (8)
+#endif
+
+#ifndef FEE_PAGE_BASE_ADDRESS
+#define FEE_PAGE_BASE_ADDRESS (0x1F000)
+#endif
+#ifndef FEE_MCU_FLASH_SIZE
+#define FEE_MCU_FLASH_SIZE (0x1000)
+#endif
+
+#ifndef EECONFIG_USER_DATA_SIZE
+#define EECONFIG_USER_DATA_SIZE 4
+#endif
+
+#ifndef EECONFIG_KB_DATA_SIZE
+#define EECONFIG_KB_DATA_SIZE 1
+#endif
+
+#ifndef TRANSIENT_EEPROM_SIZE
+#define TRANSIENT_EEPROM_SIZE 4096
+#endif
+
