@@ -1,1 +1,3 @@
+VIA_ENABLE = yes
+RAW_ENABLE = yes
 EEPROM_DRIVER = custom

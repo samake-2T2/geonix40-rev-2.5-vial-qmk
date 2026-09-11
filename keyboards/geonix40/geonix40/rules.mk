@@ -34,6 +34,9 @@ EEPROM_DRIVER = custom
 NO_USB_STARTUP_CHECK = yes
 BLUETOOTH_CUSTOM = yes
 
+VIA_ENABLE = yes
+RAW_ENABLE = yes
+
 ENCODER_MAP_ENABLE = yes    # Enable ENCODER MAP
 DEBOUNCE_TYPE = asym_eager_defer_pk
 TRI_LAYER_ENABLE = yes
