@@ -26,8 +26,18 @@ jobs:
           fi
 
       - name: Compile Geonix40 Vial Firmware
+        id: compile
         run: |
-          qmk compile -kb geonix40/geonix40 -km vial
+          set -o pipefail
+          qmk compile -kb geonix40/geonix40 -km vial 2>&1 | tee build.log
+
+      - name: Report Build Log on Failure
+        if: failure()
+        run: |
+          echo "### ❌ Build Failure Details" >> $GITHUB_STEP_SUMMARY
+          echo '```text' >> $GITHUB_STEP_SUMMARY
+          tail -n 120 build.log >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Copy firmware to release directory
         run: |

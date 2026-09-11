@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "../../../lib/rdr_lib/rdr_common.h"
+#include "rdr_common.h"
 
 /**********************系统函数***************************/
 /*  键盘扫描按键延时 */

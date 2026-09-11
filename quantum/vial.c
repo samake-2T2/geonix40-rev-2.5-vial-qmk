@@ -21,7 +21,7 @@
 #include "dynamic_keymap.h"
 #include "quantum.h"
 #include "vial_generated_keyboard_definition.h"
-#include "../../../lib/rdr_lib/rdr_common.h"
+#include "rdr_common.h"
 #include "vial_ensure_keycode.h"
 
 #define VIAL_UNLOCK_COUNTER_MAX 50

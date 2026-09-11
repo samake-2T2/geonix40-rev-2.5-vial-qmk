@@ -732,6 +732,7 @@ endif
 
 # SRC += $(LIB_PATH)/rdr_lib/rdr_common.c
 COMMON_VPATH += $(LIB_PATH)/rdr_lib
+EXTRAFLAGS += -I$(LIB_PATH)/rdr_lib
 LIB_NAME = rdrcommon
 LIBRARY = $(LIB_PATH)/rdr_lib/lib$(LIB_NAME).a
 LDFLAGS += -L$(LIB_PATH)/rdr_lib -l$(LIB_NAME)
