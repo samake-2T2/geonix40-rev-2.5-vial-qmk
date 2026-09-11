@@ -91,7 +91,7 @@ index 50369d76..3644b191 100644
 -    if((USB->CSR0L_TXCSRL) & USB_TXCSRL_TXRDY_MSK)
 -    {
 +    if(es_usbd_ep_tx_ready_state(ep_idx))
-+    {         
++    {
          musb_set_active_ep(old_ep_idx);
          return -3;
      }
@@ -107,15 +107,6 @@ index 50369d76..3644b191 100644
      switch (usb_ep0_state) {
          case USB_EP0_STATE_SETUP:
              if (ep0_status & ALD_USB_CSR0L_RXRDY) {
-@@ -888,7 +893,7 @@ void usb_lld_start(USBDriver *usbp)
- #if !defined(ES_NO_USB_SUSPEND)
-         ald_usb_int_enable(ALD_USB_INTCTRL_RESET | ALD_USB_INTCTRL_DISCONNECT | ALD_USB_INTCTRL_RESUME |ALD_USB_INTCTRL_SUSPEND | ALD_USB_INTCTRL_SOF);
- #else
--		ald_usb_int_enable(ALD_USB_INTCTRL_RESET | ALD_USB_INTCTRL_DISCONNECT | ALD_USB_INTCTRL_RESUME |ALD_USB_INTCTRL_SUSPEND);/*灌역폘SOF櫓뙤*/
-+		ald_usb_int_enable(ALD_USB_INTCTRL_RESET | ALD_USB_INTCTRL_DISCONNECT | ALD_USB_INTCTRL_RESUME |ALD_USB_INTCTRL_SUSPEND);
- #endif
-         ald_usb_int_enable_ep(ALD_USB_INTEP_ALL);
-         ald_usb_int_register();
 @@ -937,11 +942,11 @@ void usb_lld_reset(USBDriver *usbp)
   */
  void usb_lld_set_address(USBDriver *usbp)
