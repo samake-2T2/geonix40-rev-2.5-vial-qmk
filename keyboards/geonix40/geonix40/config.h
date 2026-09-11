@@ -68,12 +68,12 @@
 #define RGB_MATRIX_LED_FLUSH_LIMIT 16
 #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 144
 
-#define RGB_MATRIX_SPD_STEP   64                 // 设置 RGB 矩阵速度步进值
-#define RGB_MATRIX_VAL_STEP   16                 // 设置 RGB 矩阵亮度步进值
-#define RGB_MATRIX_DEFAULT_MODE RGB_MATRIX_SOLID_COLOR // 기본 RGB 모드: 단색
-#define RGB_MATRIX_DEFAULT_HUE 128            // 기본 색상: 하늘색 (Cyan/Sky Blue)
-#define RGB_MATRIX_DEFAULT_SAT 255            // 기본 채도: 최대
-#define RGB_MATRIX_DEFAULT_VAL 128             // 设置 RGB 矩阵默认亮度值
+#define RGB_MATRIX_SPD_STEP   64                 // RGB 매트릭스 속도 조절 단계 (RGB Matrix Speed Step)
+#define RGB_MATRIX_VAL_STEP   16                 // RGB 매트릭스 밝기 조절 단계 (RGB Matrix Brightness Step)
+#define RGB_MATRIX_DEFAULT_MODE RGB_MATRIX_SOLID_COLOR // 기본 RGB 모드: 단색 (Default Mode: Solid Color)
+#define RGB_MATRIX_DEFAULT_HUE 128               // 기본 색상: 하늘색 (Default Hue: Cyan/Sky Blue)
+#define RGB_MATRIX_DEFAULT_SAT 255               // 기본 채도: 최대 (Default Saturation: Max)
+#define RGB_MATRIX_DEFAULT_VAL 128               // RGB 매트릭스 기본 밝기값 (Default Brightness)
 
 #define RGB_MATRIX_SLEEP
 

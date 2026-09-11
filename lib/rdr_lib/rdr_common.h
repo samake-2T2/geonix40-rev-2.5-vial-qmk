@@ -6,9 +6,9 @@
 #include "usb_main.h"
 #include "raw_hid.h"
 
-/************************IO 口**************************/
-/************************IO 口**************************/
-/************************IO 口**************************/
+/************************ GPIO Configuration (GPIO 설정) **************************/
+/************************ GPIO Configuration (GPIO 설정) **************************/
+/************************ GPIO Configuration (GPIO 설정) **************************/
 #define ES_BATT_STDBY_IO    (A13)
 #define ES_USB_POWER_IO     (C5)
 #define ES_SPI_ACK_IO       (A4)
@@ -18,9 +18,9 @@
 #define ES_SDB_POWER_IO     (A3)
 #define ES_LED_POWER_IO     (D0)
 
-/************************SPI 命令**************************/
-/************************SPI 命令**************************/
-/************************SPI 命令**************************/
+/************************ SPI Commands (SPI 명령) **************************/
+/************************ SPI Commands (SPI 명령) **************************/
+/************************ SPI Commands (SPI 명령) **************************/
 #define USER_EMI_COMMAND	    0XBB
 #define USER_KEYBOARD_COMMAND	0X0A
 #define USER_KEYBOARD_LENGTH    (64)
@@ -52,8 +52,8 @@
 #define USER_BLE2_WRITE_NAME    0X13
 #define USER_BLE3_WRITE_NAME    0X14
 
-#define USER_SLEEP_TIME_WRITE   0X15       // 一级休眠时间
-#define USER_DSLEEP_TIME_WRITE  0X16       // 二级休眠时间
+#define USER_SLEEP_TIME_WRITE   0X15       // Level 1 sleep time (1단계 절전 시간)
+#define USER_DSLEEP_TIME_WRITE  0X16       // Level 2 deep sleep time (2단계 심층 절전 시간)
 
 #define USER_KEY_BYTE_LENGTH	0X08
 #define USER_KEY_BIT_LENGTH		0X0F
@@ -149,123 +149,123 @@ enum Custom_Ble_24G_Status_S {
 };
 
 typedef struct {
-    uint8_t Key_Mode;               // 键盘工作模式
-    uint8_t Key_Mode_Old;           // 上一次的键盘工作模式
-    uint8_t Ble_Channel;            // 蓝牙通道
-    uint8_t Batt_Number;            // 电池电量
-    uint8_t Nkro;                   // 六键全键无冲
-    uint8_t Mac_Win_Mode;           // MAC系统WIN系统
-    uint8_t Win_Lock;               // 锁WIN
-    uint8_t Led_On_Off;             // 背光开关
-    uint8_t Debounce_Delay;         // 按键消抖
-    uint32_t User_Sleep_Time;       // 一级休眠
-    uint32_t User_DSleep_Time;      // 二级休眠
+    uint8_t Key_Mode;               // Keyboard working mode (키보드 작동 모드: USB/BLE/2.4G)
+    uint8_t Key_Mode_Old;           // Previous keyboard mode (이전 작동 모드)
+    uint8_t Ble_Channel;            // Bluetooth channel (블루투스 채널 1/2/3)
+    uint8_t Batt_Number;            // Battery percentage (배터리 잔량 %)
+    uint8_t Nkro;                   // 6KRO / NKRO mode (6키/무한 동시입력 모드)
+    uint8_t Mac_Win_Mode;           // Mac / Windows OS mode (Mac/Win 모드)
+    uint8_t Win_Lock;               // Win Lock status (윈도우키 잠금 상태)
+    uint8_t Led_On_Off;             // Backlight On/Off (백라이트 켜기/끄기)
+    uint8_t Debounce_Delay;         // Key debounce (키 디바운스)
+    uint32_t User_Sleep_Time;       // Level 1 sleep time (1단계 절전 시간)
+    uint32_t User_DSleep_Time;      // Level 2 sleep time (2단계 절전 시간)
 #if LOGO_LED_ENABLE
-    uint8_t Logo_On_Off;            // LOGO灯光开关
-    uint8_t Logo_Mode;              // LOGO灯光模式
-    uint8_t Logo_Colour;            // LOGO灯光颜色
-    uint8_t Logo_Saturation;        // LOGO灯光饱和度
-    uint8_t Logo_Brightness;        // LOGO灯光亮度
-    uint8_t Logo_Speed;             // LOGO灯光速度
+    uint8_t Logo_On_Off;            // Logo LED On/Off (로고 LED 켜기/끄기)
+    uint8_t Logo_Mode;              // Logo LED mode (로고 LED 모드)
+    uint8_t Logo_Colour;            // Logo LED color (로고 LED 색상)
+    uint8_t Logo_Saturation;        // Logo LED saturation (로고 LED 채도)
+    uint8_t Logo_Brightness;        // Logo LED brightness (로고 LED 밝기)
+    uint8_t Logo_Speed;             // Logo LED speed (로고 LED 속도)
 #endif
 #if SIDE_LED_ENABLE
-    uint8_t Side_On_Off;            // 测灯灯光开关
-    uint8_t Side_Mode;              // 测灯灯光模式
-    uint8_t Side_Colour;            // 测灯灯光颜色
-    uint8_t Side_Saturation;        // 测灯灯光饱和度
-    uint8_t Side_Brightness;        // 测灯灯光亮度
-    uint8_t Side_Speed;             // 测灯灯光速度
+    uint8_t Side_On_Off;            // Side LED On/Off (사이드 LED 켜기/끄기)
+    uint8_t Side_Mode;              // Side LED mode (사이드 LED 모드)
+    uint8_t Side_Colour;            // Side LED color (사이드 LED 색상)
+    uint8_t Side_Saturation;        // Side LED saturation (사이드 LED 채도)
+    uint8_t Side_Brightness;        // Side LED brightness (사이드 LED 밝기)
+    uint8_t Side_Speed;             // Side LED speed (사이드 LED 속도)
 #endif
 } Keyboard_Info_t;
 
 typedef struct {
-    uint8_t System_Work_Status;     // 系统状态
-    uint8_t System_Work_Mode;       // 工作模式
-    uint8_t System_Work_Channel;    // 工作通道
-    uint8_t System_Connect_Status;  // 连接状态
-    uint8_t System_Led_Status;      // 系统指示灯
-    uint8_t System_Sleep_Mode;      // 系统休眠
+    uint8_t System_Work_Status;     // System status (시스템 상태)
+    uint8_t System_Work_Mode;       // Working mode (작동 모드)
+    uint8_t System_Work_Channel;    // Working channel (작동 채널)
+    uint8_t System_Connect_Status;  // Connection status (연결 상태)
+    uint8_t System_Led_Status;      // System indicator LED (시스템 표시등)
+    uint8_t System_Sleep_Mode;      // System sleep mode (시스템 절전 모드)
 } Keyboard_Status_t;
 
 typedef enum {
-    KB_MODE_CONNECT_OK,  	        //连接成功
-    KB_MODE_CONNECT_PAIR,	        //配对
-    KB_MODE_CONNECT_RETURN,	        //回连
+    KB_MODE_CONNECT_OK,  	        // Connected OK (연결 성공)
+    KB_MODE_CONNECT_PAIR,	        // Pairing (페어링)
+    KB_MODE_CONNECT_RETURN,	        // Reconnecting (재연결)
 } keyboard_System_state_e;
 
 typedef enum {
-    USER_SLEEP_PASS,	            //休眠成功
-    USER_SLEEP_FIAL,	            //休眠失败
+    USER_SLEEP_PASS,	            // Sleep success (절전 성공)
+    USER_SLEEP_FIAL,	            // Sleep fail (절전 실패)
 } keyboard_System_Sleep_Status_s;
 
-#define INIT_WORK_MODE              (QMK_USB_MODE)                                          // 默认工作模式
-#define INIT_BLE_CHANNEL            (QMK_BLE_CHANNEL_1)                                     // 默认蓝牙通道
-#define INIT_BATT_NUMBER            (50)                                                    // 上电的默认电池电量
+#define INIT_WORK_MODE              (QMK_USB_MODE)                                          // Default working mode (기본 작동 모드)
+#define INIT_BLE_CHANNEL            (QMK_BLE_CHANNEL_1)                                     // Default BLE channel (기본 블루투스 채널)
+#define INIT_BATT_NUMBER            (50)                                                    // Power-on default battery percentage (기본 배터리 잔량)
 
-#define INIT_SIX_KEY                (0)                                                     // 六键
-#define INIT_ALL_KEY                (1)                                                     // 全键
-#define INIT_ALL_SIX_KEY            (INIT_ALL_KEY)                                          // 全键
+#define INIT_SIX_KEY                (0)                                                     // 6KRO (6키 동시입력)
+#define INIT_ALL_KEY                (1)                                                     // NKRO (무한 동시입력)
+#define INIT_ALL_SIX_KEY            (INIT_ALL_KEY)                                          // NKRO (무한 동시입력)
 
 #define INIT_WIN_MODE               (0)                                                     // Windows
 #define INIT_MAC_MODE               (1)                                                     // Mac
 #define INIT_WIN_MAC_MODE           (INIT_WIN_MODE)                                         // Windows
 
-#define INIT_WIN_NLOCK              (0)                                                     // 不锁WIN
-#define INIT_WIN_LOCK               (1)                                                     // 锁WIN
-#define INIT_WIN_LOCK_NLOCK         (INIT_WIN_NLOCK)                                        // 不锁WIN
+#define INIT_WIN_NLOCK              (0)                                                     // Win Unlock (윈도우키 잠금 해제)
+#define INIT_WIN_LOCK               (1)                                                     // Win Lock (윈도우키 잠금)
+#define INIT_WIN_LOCK_NLOCK         (INIT_WIN_NLOCK)                                        // Win Unlock (윈도우키 잠금 해제)
 
-#define INIT_LED_ON                 (0)                                                     // 开背光
-#define INIT_LED_OFF                (1)                                                     // 不开背光
-#define INIT_LED_ON_OFF             (INIT_LED_ON)                                           // 开背光
+#define INIT_LED_ON                 (0)                                                     // Backlight On (백라이트 켜기)
+#define INIT_LED_OFF                (1)                                                     // Backlight Off (백라이트 끄기)
+#define INIT_LED_ON_OFF             (INIT_LED_ON)                                           // Backlight On (백라이트 켜기)
 
-#define DEBOUNCE_DELAY_ONE          (2)                                                     // 消抖等级1
-#define DEBOUNCE_DELAY_TWO          (5)                                                     // 消抖等级2
+#define DEBOUNCE_DELAY_ONE          (2)                                                     // Debounce Level 1 (디바운스 1단계)
+#define DEBOUNCE_DELAY_TWO          (5)                                                     // Debounce Level 2 (디바운스 2단계)
 #define DEBOUNCE_DELAY_CLASS        (DEBOUNCE_DELAY_TWO)  
 
-#define SLEEP_TIME_ONE              (60)                                                    // 休眠时间1分钟
-#define SLEEP_TIME_TWO              (180)                                                   // 休眠时间3分钟
-#define SLEEP_TIME_THREE            (600)                                                   // 休眠时间10分钟
-#define SLEEP_TIME_FOUR             (1800)                                                  // 休眠时间30分钟
-#define SLEEP_TIME_CLASS            (SLEEP_TIME_TWO)                                        // 默认休眠10分钟
+#define SLEEP_TIME_ONE              (60)                                                    // Sleep time: 1 min (절전 시간: 1분)
+#define SLEEP_TIME_TWO              (180)                                                   // Sleep time: 3 min (절전 시간: 3분)
+#define SLEEP_TIME_THREE            (600)                                                   // Sleep time: 10 min (절전 시간: 10분)
+#define SLEEP_TIME_FOUR             (1800)                                                  // Sleep time: 30 min (절전 시간: 30분)
+#define SLEEP_TIME_CLASS            (SLEEP_TIME_TWO)                                        // Default sleep time (기본 절전 시간)
 
-#define U_PWM                       (RGB_MATRIX_MAXIMUM_BRIGHTNESS)                         // 亮度
+#define U_PWM                       (RGB_MATRIX_MAXIMUM_BRIGHTNESS)                         // Brightness (밝기)
 
 #if LOGO_LED_ENABLE
-#define LOGO_LED_PLAY_SPEED	        (0)                                                     // 灯光刷新速度
-#define LOGO_LED_SIZE	            (29)                                                     // 灯光数量
+#define LOGO_LED_PLAY_SPEED	        (0)                                                     // LED refresh speed (LED 새로고침 속도)
+#define LOGO_LED_SIZE	            (29)                                                     // LED count (LED 개수)
 
-#define LOGO_LED_ON                 (0)                                                     // 灯光打开
-#define LOGO_LED_OFF                (1)                                                     // 灯光关闭
+#define LOGO_LED_ON                 (0)                                                     // LED On (LED 켜기)
+#define LOGO_LED_OFF                (1)                                                     // LED Off (LED 끄기)
 
-#define LOGO_WAVE_RGB_MODE          (1)                                                     // 彩色波浪
-#define LOGO_WAVE_DS_MODE           (2)                                                     // 单色波浪
-#define LOGO_SPECTRUM_MODE          (3)                                                     // 光谱
-#define LOGO_BREATH_MODE            (4)                                                     // 单色呼吸
-#define LOGO_LIGHT_MODE             (5)                                                     // 单色常量
-#define LOGO_OFF_MODE               (6)                                                     // 关闭
+#define LOGO_WAVE_RGB_MODE          (1)                                                     // Rainbow Wave Mode (무지개 파도 모드)
+#define LOGO_WAVE_DS_MODE           (2)                                                     // Single Color Wave Mode (단색 파도 모드)
+#define LOGO_SPECTRUM_MODE          (3)                                                     // Spectrum Mode (스펙트럼 모드)
+#define LOGO_BREATH_MODE            (4)                                                     // Single Color Breathing Mode (단색 숨쉬기 모드)
+#define LOGO_LIGHT_MODE             (5)                                                     // Solid Color Mode (단색 상시 점등 모드)
+#define LOGO_OFF_MODE               (6)                                                     // Off (끄기)
 
-#define LOGO_MAX_COLOUR             (255)                                                   // 颜色最大
-#define LOGO_MIN_COLOUR             (0)                                                     // 颜色最小
-#define COLOUR_LEVEL                (15)                                                    // 颜色等级
+#define LOGO_MAX_COLOUR             (255)                                                   // Max Color (최대 색상)
+#define LOGO_MIN_COLOUR             (0)                                                     // Min Color (최소 색상)
+#define COLOUR_LEVEL                (15)                                                    // Color Step (색상 조절 단계)
 
-#define LOGO_MAX_SATURATION         (0)                                                     // 饱和度最大
-#define LOGO_MIN_SATURATION         (255)                                                   // 饱和度最小
-#define SATURATION_LEVEL            (15)                                                    // 饱和度等级
+#define LOGO_MAX_SATURATION         (0)                                                     // Max Saturation (최대 채도)
+#define LOGO_MIN_SATURATION         (255)                                                   // Min Saturation (최소 채도)
+#define SATURATION_LEVEL            (15)                                                    // Saturation Step (채도 조절 단계)
 
-#define LOGO_MAX_BRIGHTNESS         (RGB_MATRIX_MAXIMUM_BRIGHTNESS)                         // 亮度最大
-#define LOGO_MIN_BRIGHTNESS         (0)                                                     // 亮度最小
-#define BRIGHTNESS_LEVEL            (16)                                                    // 亮度等级
+#define LOGO_MAX_BRIGHTNESS         (RGB_MATRIX_MAXIMUM_BRIGHTNESS)                         // Max Brightness (최대 밝기)
+#define LOGO_MIN_BRIGHTNESS         (0)                                                     // Min Brightness (최소 밝기)
+#define BRIGHTNESS_LEVEL            (16)                                                    // Brightness Step (밝기 단계)
 
-#define LOGO_MAX_SPEED              (4)                                                     // 速度最大
-#define LOGO_MIN_SPEED              (0)                                                     // 速度最小
-#define SPEED_LEVEL                 (1)                                                     // 速度等级
+#define LOGO_MAX_SPEED              (4)                                                     // Max Speed (최대 속도)
+#define LOGO_MIN_SPEED              (0)                                                     // Min Speed (최소 속도)
+#define SPEED_LEVEL                 (1)                                                     // Speed Step (속도 조절 단계)
 
-#define INIT_LOGO_ON_OFF            (LOGO_LED_ON)                                           // 灯光打开
-#define INIT_LOGO_MODE              (LOGO_WAVE_RGB_MODE)                                    // 彩色波浪
-#define INIT_LOGO_COLOUR            (LOGO_MIN_COLOUR)                                       // 颜色最小
-#define INIT_LOGO_SATURATION        (LOGO_MAX_SATURATION)                                   // 饱和度最大
-#define INIT_LOGO_BRIGHTNESS        (LOGO_MAX_BRIGHTNESS-BRIGHTNESS_LEVEL)                  // 亮度最大
-#define INIT_LOGO_SPEED             (1)                                                     // 速度居中
+#define INIT_LOGO_ON_OFF            (LOGO_LED_ON)                                           // LED On (LED 켜기)
+#define INIT_LOGO_MODE              (LOGO_WAVE_RGB_MODE)                                    // Rainbow Wave Mode (무지개 파도 모드)
+#define INIT_LOGO_COLOUR            (LOGO_MIN_COLOUR)                                       // Min Color (최소 색상)
+#define INIT_LOGO_SATURATION        (LOGO_MAX_SATURATION)                                   // Max Saturation (최대 채도)
+#define INIT_LOGO_BRIGHTNESS        (LOGO_MAX_BRIGHTNESS-BRIGHTNESS_LEVEL)                  // Max Brightness (최대 밝기)
+#define INIT_LOGO_SPEED             (1)                                                     // Default Speed (기본 속도)
 
 void User_Via_Qmk_Logo_Get_Value(uint8_t *data);
 void User_Via_Qmk_Logo_Set_Value(uint8_t *data);
@@ -274,41 +274,41 @@ void User_Via_Qmk_Logo_Command(uint8_t *data, uint8_t length);
 #endif
 //--------------------------------------------------------------------------------------------------------
 #if SIDE_LED_ENABLE
-#define SIDE_LED_PLAY_SPEED	        (0)                                                     // 灯光刷新速度
-#define SIDE_LED_SIZE	            (30)                                                    // 灯光数量
+#define SIDE_LED_PLAY_SPEED	        (0)                                                     // LED refresh speed (LED 새로고침 속도)
+#define SIDE_LED_SIZE	            (30)                                                    // LED count (LED 개수)
 
-#define SIDE_LED_ON                 (0)                                                     // 灯光打开
-#define SIDE_LED_OFF                (1)                                                     // 灯光关闭
+#define SIDE_LED_ON                 (0)                                                     // LED On (LED 켜기)
+#define SIDE_LED_OFF                (1)                                                     // LED Off (LED 끄기)
 
-#define SIDE_WAVE_RGB_MODE          (1)                                                     // 彩色波浪
-#define SIDE_WAVE_DS_MODE           (2)                                                     // 单色波浪
-#define SIDE_SPECTRUM_MODE          (3)                                                     // 光谱
-#define SIDE_BREATH_MODE            (4)                                                     // 单色呼吸
-#define SIDE_LIGHT_MODE             (5)                                                     // 单色常量
-#define SIDE_OFF_MODE               (6)                                                     // 关闭
+#define SIDE_WAVE_RGB_MODE          (1)                                                     // Rainbow Wave Mode (무지개 파도 모드)
+#define SIDE_WAVE_DS_MODE           (2)                                                     // Single Color Wave Mode (단색 파도 모드)
+#define SIDE_SPECTRUM_MODE          (3)                                                     // Spectrum Mode (스펙트럼 모드)
+#define SIDE_BREATH_MODE            (4)                                                     // Single Color Breathing Mode (단색 숨쉬기 모드)
+#define SIDE_LIGHT_MODE             (5)                                                     // Solid Color Mode (단색 상시 점등 모드)
+#define SIDE_OFF_MODE               (6)                                                     // Off (끄기)
 
-#define SIDE_MAX_COLOUR             (160)                                                   // 颜色最大
-#define SIDE_MIN_COLOUR             (0)                                                     // 颜色最小
-#define SIDE_COLOUR_LEVEL           (15)                                                    // 颜色等级
+#define SIDE_MAX_COLOUR             (160)                                                   // Max Color (최대 색상)
+#define SIDE_MIN_COLOUR             (0)                                                     // Min Color (최소 색상)
+#define SIDE_COLOUR_LEVEL           (15)                                                    // Color Step (색상 조절 단계)
 
-#define SIDE_MAX_SATURATION         (0)                                                     // 饱和度最大
-#define SIDE_MIN_SATURATION         (255)                                                   // 饱和度最小
-#define SIDE_SATURATION_LEVEL       (15)                                                    // 饱和度等级
+#define SIDE_MAX_SATURATION         (0)                                                     // Max Saturation (최대 채도)
+#define SIDE_MIN_SATURATION         (255)                                                   // Min Saturation (최소 채도)
+#define SIDE_SATURATION_LEVEL       (15)                                                    // Saturation Step (채도 조절 단계)
 
-#define SIDE_MAX_BRIGHTNESS         (RGB_MATRIX_MAXIMUM_BRIGHTNESS)                         // 亮度最大
-#define SIDE_MIN_BRIGHTNESS         (0)                                                     // 亮度最小
-#define SIDE_BRIGHTNESS_LEVEL       (15)                                                    // 亮度等级
+#define SIDE_MAX_BRIGHTNESS         (RGB_MATRIX_MAXIMUM_BRIGHTNESS)                         // Max Brightness (최대 밝기)
+#define SIDE_MIN_BRIGHTNESS         (0)                                                     // Min Brightness (최소 밝기)
+#define SIDE_BRIGHTNESS_LEVEL       (15)                                                    // Brightness Step (밝기 단계)
 
-#define SIDE_MAX_SPEED              (4)                                                     // 速度最大
-#define SIDE_MIN_SPEED              (0)                                                     // 速度最小
-#define SIDE_SPEED_LEVEL            (1)                                                     // 速度等级
+#define SIDE_MAX_SPEED              (4)                                                     // Max Speed (최대 속도)
+#define SIDE_MIN_SPEED              (0)                                                     // Min Speed (최소 속도)
+#define SIDE_SPEED_LEVEL            (1)                                                     // Speed Step (속도 조절 단계)
 
-#define INIT_SIDE_ON_OFF            (SIDE_LED_ON)                                           // 灯光打开
-#define INIT_SIDE_MODE              (SIDE_WAVE_RGB_MODE)                                    // 彩色波浪
-#define INIT_SIDE_COLOUR            (SIDE_MIN_COLOUR)                                       // 颜色最小
-#define INIT_SIDE_SATURATION        (SIDE_MAX_SATURATION)                                   // 饱和度最大
-#define INIT_SIDE_BRIGHTNESS        (SIDE_MAX_BRIGHTNESS)                                   // 亮度最大
-#define INIT_SIDE_SPEED             (2)                                                     // 速度居中
+#define INIT_SIDE_ON_OFF            (SIDE_LED_ON)                                           // LED On (LED 켜기)
+#define INIT_SIDE_MODE              (SIDE_WAVE_RGB_MODE)                                    // Rainbow Wave Mode (무지개 파도 모드)
+#define INIT_SIDE_COLOUR            (SIDE_MIN_COLOUR)                                       // Min Color (최소 색상)
+#define INIT_SIDE_SATURATION        (SIDE_MAX_SATURATION)                                   // Max Saturation (최대 채도)
+#define INIT_SIDE_BRIGHTNESS        (SIDE_MAX_BRIGHTNESS)                                   // Max Brightness (최대 밝기)
+#define INIT_SIDE_SPEED             (2)                                                     // Default Speed (기본 속도)
 
 void User_Via_Qmk_Side_Get_Value(uint8_t *data);
 void User_Via_Qmk_Side_Set_Value(uint8_t *data);
@@ -322,9 +322,9 @@ void User_Via_Qmk_Side_Command(uint8_t *data, uint8_t length);
 #define USER_BATT_POWER_SCAN_COUNT  (10)
 #define USER_BATT_SCAN_COUNT        (10)
 
-#define USER_BATT_HIGH_POWER        (2555)      //满电 2565 * 3.3 /4096 = 2.066 4.13V     实际电路存在压降。
-#define USER_BATT_LOW_POWER         (2065)      //低电 2065 * 3.3 /4096 = 1.663 3.32V     即使键盘不开灯，电池满电4.2V
-#define USER_BATT_STDOWN_POWER      (1865)      //关机 1865 * 3.3 /4096 = 1.502 3.04V     输入到板子也就只有4.1V左右
+#define USER_BATT_HIGH_POWER        (2555)      // Full Battery: 4.13V (완충 전압)
+#define USER_BATT_LOW_POWER         (2065)      // Low Battery: 3.32V (저전력 경고 전압)
+#define USER_BATT_STDOWN_POWER      (1865)      // Cutoff Voltage: 3.04V (종료 전압)
 
 #define USER_BATT_DELAY_TIME        (100 * 25)  //25S
 #define USER_TIME_3S_TIME           (300)       //3S
@@ -343,7 +343,7 @@ void Emi_Write_Data(uint8_t *User_Data, uint8_t User_Length);
 #define USER_BlE2_NAME              "GEONIX REV.2.5"
 #define USER_BlE3_NAME              "GEONIX REV.2.5"
 
-#define USER_DSLEEP_TIME            0X147AE0 //二级休眠时间 单位 S
+#define USER_DSLEEP_TIME            0X147AE0 // Deep sleep time in seconds (2단계 심층 절전 시간: 초 단위)
 
 #define KEYBAORD_COL                (12)
 #define KEYBAORD_ROL                (4)
@@ -384,9 +384,9 @@ void Emi_Write_Data(uint8_t *User_Data, uint8_t User_Length);
 #define KbPrSlp  TIME_ST
 #define KbdSecS  TIME_DT
 
-/************************基本变量**************************/
-/************************基本变量**************************/
-/************************基本变量**************************/
+/************************ Basic Variables (기본 변수) **************************/
+/************************ Basic Variables (기본 변수) **************************/
+/************************ Basic Variables (기본 변수) **************************/
 
 extern Keyboard_Info_t Keyboard_Info;
 extern Keyboard_Status_t Keyboard_Status;
@@ -406,17 +406,17 @@ void    es_send_extra(report_extra_t *report);
 volatile host_driver_t * es_qmk_driver;
 const host_driver_t es_user_driver;
 
-/************************按键消抖**************************/
-unsigned int Debounce_Delay;        //键盘消抖次数，最大为127
+/************************ Key Debounce (키 디바운스) **************************/
+unsigned int Debounce_Delay;        // Key debounce delay count, max 127 (키 디바운스 카운터, 최대 127)
 uint8_t Debounce_Point_Count;
 uint16_t User_Key_3s_Count;
 bool Debounce_Function_Count;
 bool Debounce_Function_Status;
 
-/******************自定义休眠相关变量********************/
+/****************** Custom Sleep Variables (커스텀 절전 관련 변수) ********************/
 uint8_t User_Sleep_Timer_Count;
 
-/************************电池**************************/
+/************************ Battery (배터리) **************************/
 uint16_t User_Adc_Batt[USER_BATT_SCAN_COUNT];
 uint16_t User_Scan_Batt[USER_BATT_SCAN_COUNT];
 uint8_t User_Adc_Batt_Count;
@@ -436,7 +436,7 @@ uint8_t es_stdby_pin_state;
 bool User_Key_Batt_Num_Show;
 uint8_t User_Key_Batt_Count;
 /*********************************************************/
-/************************电池充电******************************/
+/************************ Battery Charging (배터리 충전) ******************************/
 bool User_Batt_Power_Up_LED_Flag;
 uint16_t User_Batt_Power_Up_LED_Count;
 /*********************************************************/
@@ -507,10 +507,10 @@ uint8_t Ble_Name_Spi_Count;
 bool User_Sleep_Time_Send;
 bool User_DSleep_Time_Send;
 
-// 键盘灯光测试变量
+// Keyboard LED test variable (키보드 조명 테스트 변수)
 bool Test_Led;
 uint8_t Test_Colour;
-/************************键盘恢复初始化变量*******************/
+/************************ Keyboard Reset Variables (키보드 리셋 초기화 변수) *******************/
 uint16_t Time_3s_EE_CLR_Count;
 bool User_QMK_EE_CLR_Flag;
 bool User_EE_CLR_Start_Flag;
@@ -526,7 +526,7 @@ uint16_t Time_3s_Count;
 uint16_t Spi_Interval;
 /*********************************************************/
 
-/************************数据队列**************************/
+/************************ Data Queue (데이터 큐) **************************/
 uint8_t app_2g4_data[APP_2G4_BUF_CNT][APP_2G4_BUF_SIZE];
 volatile uint8_t app_2g4_data_send;
 volatile uint8_t app_2g4_data_rev;
@@ -618,39 +618,39 @@ void eeprom_driver_erase(void);
 volatile uint8_t es_eeprom_init_flag;
 
 void eeprom_driver_init(void);
-/*****************eeprom块读取********************/
+/***************** EEPROM Block Read (EEPROM 블록 읽기) ********************/
 void eeprom_read_block(void *buf, const void *addr, size_t len);
-/*****************eeprom块写入********************/
+/***************** EEPROM Block Write (EEPROM 블록 쓰기) ********************/
 void eeprom_write_block(const void *buf, void *addr, size_t len);
 void eeprom_read_block_user(void *buf, const void *addr, size_t len);
 void eeprom_write_block_user(const void *buf, void *addr, size_t len);
 /*********************************************************/
 uint8_t es_keyboard_leds(void);
 
-/*发送6键类型数据*/
+/* Send 6KRO report (6키 리포트 전송) */
 void    es_send_keyboard(report_keyboard_t *report);
 
-/*发送全键类型数据*/
+/* Send NKRO report (무한 동시입력 리포트 전송) */
 void    es_send_nkro(report_nkro_t *report);
 
-/*发送鼠标类型数据*/
+/* Send Mouse report (마우스 리포트 전송) */
 void    es_send_mouse(report_mouse_t *report);
 
-/*发送多媒体类型数据*/
+/* Send Consumer/Multimedia report (멀티미디어 리포트 전송) */
 void    es_send_extra(report_extra_t *report);
 
 void    es_send_raw_hid(uint8_t *data, uint8_t length);
 
-/*系统复位*/
+/* System Reset (시스템 리셋) */
 void es_mcu_reset(void);
 
-/*跳转boot*/
+/* Jump to Bootloader (부트로더 점프) */
 void bootloader_jump(void);
 
-/*MCU复位*/
+/* MCU Reset (MCU 리셋) */
 void mcu_reset(void);
 
-/*写入flash*/
+/* Write to Flash (플래시 쓰기) */
 void Save_Flash_Set(void);
 /************************SPI*****************************/
 const uint32_t g_es_dma_ch2pri_cfg;
@@ -665,17 +665,17 @@ void es_ble_spi_deinit(void);
 
 void es_spi_send_recv_by_dma(uint32_t num, uint8_t *rx_buf, uint8_t *tx_buf);
 
-/*SPI发送命令函数*/
+/* SPI Command Send (SPI 명령 전송 함수) */
 void Spi_Send_Commad(uint8_t Commad);
 
-/*SPI发送命令函数*/
+/* SPI Command Send (SPI 명령 전송 함수) */
 uint8_t Spi_Ack_Send_Commad(uint8_t Commad);
 
-/*获取SPI数据函数*/
+/* SPI Data Read (SPI 데이터 수신 함수) */
 void Get_Spi_Return_Data(uint8_t *Data);
 
 /*********************************************************/
-/************************灯光*****************************/
+/************************ Lighting (조명) *****************************/
 #define ES_PWM_LED_SIZE         (42)
 #define ES_PWM_LED_BYTE         (24)
 #define ES_PWM_DMA_SIZE         (ES_PWM_LED_SIZE * ES_PWM_LED_BYTE)
@@ -711,7 +711,7 @@ uint8_t Logo_Pwm_G;
 uint8_t Logo_Pwm_B;
 uint8_t Logo_Pwm_Colour;
 /*********************************
-            初始化函数
+            Init Functions (초기화 함수)
 *********************************/
 void Logo_Init(void);
 void Logo_Pwm_Rgb_Updata(uint8_t Pwm);
@@ -755,7 +755,7 @@ void Led_Batt_Number_Show(void);
 
 void User_Get_Led_Power_Status(void);
 
-// 灯光测试模式
+// LED Test Mode (조명 테스트 모드)
 void User_Test_Colour_Show(void);
 
 void User_Led_Show(void);
@@ -773,7 +773,7 @@ void User_Adc_Deinit(void);
 void User_Systime_Init(void);
 /*********************************************************/
 
-/************************USB 插件**************************/
+/************************ USB Plugin (USB 플러그인) **************************/
 void User_Usb_Init(void);
 
 void es_restart_usb_driver(void);
@@ -783,12 +783,12 @@ void Usb_Disconnect(void);
 void User_Usb_Deinit(void);
 /*********************************************************/
 
-/************************休眠*****************************/
+/************************ Sleep Mode (절전 모드) *****************************/
 void Init_Gpio_Infomation(void);
 
 void Init_Batt_Infomation(void);
 
-/*先将IO配置成需要休眠的状态*/
+/* Configure GPIO pins for low-power sleep state (절전 상태를 위해 GPIO 설정) */
 void User_Sleep(void);
 
 void User_Wakeup(void);
@@ -816,16 +816,16 @@ void Board_Wakeup_Init(void);
 void es_chibios_user_idle_loop_hook(void);
 /*********************************************************/
 
-/**********************系统函数***************************/
+/********************** System Functions (시스템 함수) ***************************/
 
 
 void User_Keyboard_Reset(void);
 /*********************************************************/
 
-//DMA1_CH12_IRQHandler  DMA中断
+// DMA1_CH12_IRQHandler - DMA Interrupt (DMA 인터럽트)
 OSAL_IRQ_HANDLER(Vector68);
 
-//EXTI_4to15_IRQHandler IO中断
+// EXTI_4to15_IRQHandler - GPIO Interrupt (GPIO 인터럽트)
 OSAL_IRQ_HANDLER(Vector5C);
 
 void User_Adc_Batt_Power_Up_Init(void);
@@ -839,14 +839,14 @@ void es_change_qmk_nkro_mode_enable(void);
 void es_change_qmk_nkro_mode_disable(void);
 
 void Mode_Synchronization(void);
-//蓝牙回连用户名同步
+// Sync BLE reconnect device name (블루투스 재연결 기기명 동기화)
 void Ble_Name_Synchronization(void);
 
 void Sleep_Time_Synchronization(void);
 
 void DSleep_Time_Synchronization(void);
 
-//BS16T1_IRQHandler 2ms定时器
+// BS16T1_IRQHandler - 2ms Timer Interrupt (2ms 타이머 인터럽트)
 OSAL_IRQ_HANDLER(Vector78);
 
 void User_Keyboard_Init(void);
