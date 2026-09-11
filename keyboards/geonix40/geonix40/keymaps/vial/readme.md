@@ -1,25 +1,28 @@
-# EPOMAKER QK81
+# GEONIX40 (Rev.2.5) - VIAL Keymap
 
-A customizable 88key keyboard.
+VIAL keymap for the GEONIX40 (Rev.2.5) Tri-mode mechanical keyboard.  
+(GEONIX40 Rev.2.5 삼중 모드 기계식 키보드 전용 VIAL 키맵입니다.)
 
-![EPOMAKER QK81](https://raw.githubusercontent.com/Linyer-qwq/image/main/EPOMAKER QK81.jpg)
+---
 
-* Keyboard Maintainer: [LiWenLiu](https://github.com/LiuLiuQMK)
-* Hardware Supported: EPOMAKER QK81 PCB with es32fs026 microcontroller
+## Features (주요 기능)
 
-Make example for this keyboard (after setting up your build environment):
+* **VIAL Support (VIAL 지원)**: Real-time key remapping, macros, tap dance, and combo via [VIAL Web](https://vial.rocks) or VIAL desktop app.  
+  (VIAL 웹 및 데스크탑 앱을 통한 실시간 키 매핑, 매크로, 탭댄스, 콤보 설정 지원)
+* **Tri-Mode Wireless (삼중 무선 연결)**: USB-C 유선, 블루투스 5.0 (3개 채널), 2.4GHz 무선 지원
+* **RGB Matrix & Side/Logo LED (조명 효과)**: 스위치 백라이트 및 사이드/로고 LED 독립 및 동기화 제어 지원
 
-    make essemi/EPOMAKER QK81:default
+---
 
-Flashing example for this keyboard:
+## Build (빌드 방법)
 
-    make essemi/EPOMAKER QK81:default:flash
+```bash
+make geonix40/geonix40:vial
+```
 
-See the [build environment setup](https://docs.qmk.fm/#/getting_started_build_tools) and the [make instructions](https://docs.qmk.fm/#/getting_started_make_guide) for more information. Brand new to QMK? Start with our [Complete Newbs Guide](https://docs.qmk.fm/#/newbs).
+---
 
-## Bootloader
+## Bootloader (부트로더 진입)
 
-Enter the bootloader in 2 ways:
-
-* **Bootmagic reset**: Hold down the key at (0,0) in the matrix (Esc key) and plug in the keyboard
-* **Physical reset button**: Briefly press the button on the back of the PCB
+1. **Bootmagic Reset**: USB 케이블을 꽂는 동안 좌측 상단 키(Esc / Tab)를 길게 누릅니다.
+2. **Physical Button**: PCB 후면의 물리 리셋 버튼을 누릅니다.
