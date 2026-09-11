@@ -30,13 +30,7 @@ jobs:
 
       - name: Compile Geonix40 Vial Firmware
         run: |
-          make geonix40/geonix40:vial > make_output.log 2>&1 || {
-            status=$?
-            while IFS= read -r line; do
-              echo "::error file=Makefile::$line"
-            done < make_output.log
-            exit $status
-          }
+          make geonix40/geonix40:vial SILENT=false VERBOSE=1 2>&1 | tee make_output.log
 
       - name: Upload Build Log on Failure
         if: failure()
