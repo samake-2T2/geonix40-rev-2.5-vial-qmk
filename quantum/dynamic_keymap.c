@@ -294,7 +294,9 @@ void dynamic_keymap_macro_send(uint8_t id) {
                 data[2] = dynamic_keymap_read_byte(offset++);
                 if (data[2] != 0)
                     send_string(data);
-            } else if (data[1] == VIAL_MACRO_EXT_TAP || data[1] == VIAL_MACRO_EXT_DOWN || data[1] == VIAL_MACRO_EXT_UP) {
+            }
+#ifdef VIAL_ENABLE
+            else if (data[1] == VIAL_MACRO_EXT_TAP || data[1] == VIAL_MACRO_EXT_DOWN || data[1] == VIAL_MACRO_EXT_UP) {
                 data[2] = dynamic_keymap_read_byte(offset++);
                 if (data[2] != 0) {
                     data[3] = dynamic_keymap_read_byte(offset++);
@@ -315,7 +317,9 @@ void dynamic_keymap_macro_send(uint8_t id) {
                         }
                     }
                 }
-            } else if (data[1] == SS_DELAY_CODE) {
+            }
+#endif
+            else if (data[1] == SS_DELAY_CODE) {
                 // For delay, decode the delay and wait_ms for that amount
                 uint8_t d0 = dynamic_keymap_read_byte(offset++);
                 uint8_t d1 = dynamic_keymap_read_byte(offset++);
