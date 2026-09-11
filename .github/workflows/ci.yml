@@ -38,6 +38,13 @@ jobs:
       with:
         persist-credentials: false
         submodules: recursive
+    - name: Apply ES32 driver patch
+      run: |
+        git config --global --add safe.directory $(pwd)
+        git config --global --add safe.directory $(pwd)/lib/chibios-contrib
+        if [ -f keyboards/geonix40/chibios_contrib_es32.patch ]; then
+          git -C lib/chibios-contrib apply ../../keyboards/geonix40/chibios_contrib_es32.patch || true
+        fi
 
     - name: Build
       id: build
@@ -76,6 +83,14 @@ jobs:
       with:
         persist-credentials: false
         submodules: recursive
+
+    - name: Apply ES32 driver patch
+      run: |
+        git config --global --add safe.directory $(pwd)
+        git config --global --add safe.directory $(pwd)/lib/chibios-contrib
+        if [ -f keyboards/geonix40/chibios_contrib_es32.patch ]; then
+          git -C lib/chibios-contrib apply ../../keyboards/geonix40/chibios_contrib_es32.patch || true
+        fi
 
     - name: Build
       id: build

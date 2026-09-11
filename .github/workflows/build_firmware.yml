@@ -1,0 +1,48 @@
+name: Build Geonix40 Firmware
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Geonix40 Vial Firmware
+    runs-on: ubuntu-latest
+    container: ghcr.io/qmk/qmk_cli@sha256:2dc05fc9f32efebd6b05c2b8676ee548358bc7e151e9dbf4dac6b6eed4513b07
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Apply ES32 driver patch
+        run: |
+          git config --global --add safe.directory $(pwd)
+          git config --global --add safe.directory $(pwd)/lib/chibios-contrib
+          if [ -f keyboards/geonix40/chibios_contrib_es32.patch ]; then
+            git -C lib/chibios-contrib apply ../../keyboards/geonix40/chibios_contrib_es32.patch || true
+          fi
+
+      - name: Compile Geonix40 Vial Firmware
+        run: |
+          qmk compile -kb geonix40/geonix40 -km vial
+
+      - name: Copy firmware to release directory
+        run: |
+          mkdir -p release_firmware
+          cp -v *.bin release_firmware/ 2>/dev/null || true
+          cp -v *.hex release_firmware/ 2>/dev/null || true
+          cp -v *.uf2 release_firmware/ 2>/dev/null || true
+          cp -v .build/*.bin release_firmware/ 2>/dev/null || true
+          cp -v .build/*.hex release_firmware/ 2>/dev/null || true
+          cp -v .build/*.uf2 release_firmware/ 2>/dev/null || true
+          ls -la release_firmware/
+
+      - name: Upload Firmware Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: geonix40_vial_firmware
+          path: release_firmware/*
+          if-no-files-found: error
