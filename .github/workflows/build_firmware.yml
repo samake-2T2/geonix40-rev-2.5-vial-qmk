@@ -5,9 +5,6 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
   build:
     name: Build Geonix40 Vial Firmware
@@ -33,18 +30,7 @@ jobs:
 
       - name: Compile Geonix40 Vial Firmware
         run: |
-          make geonix40/geonix40:vial SILENT=false VERBOSE=1 2>&1 | tee make_output.log
-
-      - name: Save build log to branch
-        if: always()
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -B build-log
-          cp make_output.log last_build.log 2>/dev/null || true
-          git add -f last_build.log
-          git commit -m "Update build log" || true
-          git push -f origin build-log || true
+          make geonix40/geonix40:vial
 
       - name: Copy firmware to release directory
         run: |
